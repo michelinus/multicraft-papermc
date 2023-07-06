@@ -1,0 +1,24 @@
+<script>
+async function latest_ver() {
+  let get = await (await fetch('https://api.papermc.io/v2/projects/paper')).json();
+  let latest = get.versions.at(-1);
+  return latest;
+}
+
+async function latest_build() {
+  let url = 'https://api.papermc.io/v2/projects/paper/versions/' + await latest_ver();
+  let get = await (await fetch(url)).json();
+  let latest = get.builds.at(-1);
+  return latest;
+}
+
+async function latest_url() {
+  let ver = await latest_ver();
+  let build = await latest_build();
+  let url = 'https://api.papermc.io/v2/projects/paper/versions/' + ver + '/builds/' + build + '/downloads/paper-'+ ver + '-' + build + '.jar';
+  location.href = url;
+  return url;
+}
+
+latest_url();
+</script> 
